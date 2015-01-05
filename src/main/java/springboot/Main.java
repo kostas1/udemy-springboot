@@ -40,8 +40,8 @@ public class Main {
 		/*
 		 * Delete first post
 		 */
-		System.out.println("Deleting first post");
-		repository.delete(1L);
+		System.out.println("Deleting second post");
+		repository.delete(2L);
 		
 		/*
 		 * Print all posts again to see that first post is no longer there
@@ -51,5 +51,7 @@ public class Main {
 		for (Post post: posts) {
 			System.out.println(post);
 		}
+		
+		System.out.println("Printing by title: " + repository.findByTitle("Changing the title"));
 	}
 }
