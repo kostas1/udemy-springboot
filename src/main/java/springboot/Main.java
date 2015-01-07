@@ -7,7 +7,9 @@ import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
 
 import springboot.data.entities.Post;
+import springboot.data.entities.User;
 import springboot.data.repositories.PostRepository;
+import springboot.data.repositories.UserRepository;
 
 @Configuration
 @EnableAutoConfiguration
@@ -17,6 +19,12 @@ public class Main {
 	public static void main(String[] args) {
 		ApplicationContext context = SpringApplication.run(Main.class, args);
 		
+        User user = new User();
+        user.setUsername("kostas");
+        user.setPlainPassword("1234");
+		UserRepository userRepository = context.getBean(UserRepository.class);
+		userRepository.save(user);
+        
 		PostRepository repository = context.getBean(PostRepository.class);
 		repository.save(new Post("First post", "Hello everyeone!"));
 		repository.save(new Post("Second post", "Hello again!"));
@@ -55,5 +63,8 @@ public class Main {
 		}
 		
 		System.out.println("Printing by title: " + repository.findByTitle("Changing the title"));
+		for (String name: context.getBeanDefinitionNames()) {
+			System.out.println(name);
+		}
 	}
 }

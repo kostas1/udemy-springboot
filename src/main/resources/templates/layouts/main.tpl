@@ -6,6 +6,11 @@ html {
 			link(rel: 'stylesheet', href: "/css/${pageStylesheet}.css")
 	}
 	body {
+		div(class: 'menu') {
+			if (authentication != null && authentication.getName() != 'anonymousUser') {
+				a(href: '/logout', "Logout, ${authentication.getName()}")
+			}
+		}
 		div(class: 'container') {
 			div {
 				p {

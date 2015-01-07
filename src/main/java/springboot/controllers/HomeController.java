@@ -10,4 +10,24 @@ public class HomeController {
 	public String home() {
 		return "home";
 	}
+	
+	@RequestMapping("/login")
+	public String login() {
+		return "login";
+	}
+	
+	@RequestMapping("/loginSuccess")
+	public String loginSuccessful() {
+		return "loginSuccess";
+	}
+
+	@RequestMapping("/loginFailure")
+	public String loginFailure() {
+		return "loginFailure";
+	}
+	
+	@RequestMapping("/logoutSuccess")
+	public String logoutSuccess() {
+		return "logoutSuccess";
+	}
 }

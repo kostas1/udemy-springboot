@@ -1,6 +1,7 @@
 layout 'layouts/main.tpl',
 	pageTitle: 'title',
 	pageStylesheet: 'posts/main',
+	authentication: authentication,
 	pageBody: contents {
 		p {
 			'List of posts'
