@@ -55,9 +55,33 @@ public class Post {
 		return "Post [id=" + id + ", title=" + title + ", content=" + content
 				+ ", created=" + created + ", changed=" + changed + "]";
 	}
+	
+	public void setId(long id) {
+		this.id = id;
+	}
 
 	public void setTitle(String title) {
 		this.title = title;
 		this.changed = new Date();
+	}
+	
+	/*
+	 * Setters are also required by a template engine to successfully set values on objects from templates
+	 */
+	public void setContent(String content) {
+		this.content = content;
+		this.changed = new Date();
+	}
+
+	public Long getId() {
+		return id;
+	}
+	
+	public String getTitle() {
+		return title;
+	}
+	
+	public String getContent() {
+		return content;
 	}
 }
