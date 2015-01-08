@@ -45,6 +45,7 @@ public class UserController {
         user.setState(User.UserState.EmailNotConfirmed);
         user.generateEmailConfirmationToken();
         dataService.save(user);
+        System.out.println("Link to confirm email for ones who don't want to setup MailSender: " + String.format("users/confirmEmail/%s/%s", username, user.getEmailConfirmationToken()));
         mailService.sendRegistrationConfirmation(user);
         redirectAttributes.addFlashAttribute("info", "User registration confirmation request has been sent to your email address");
         return "redirect:/";

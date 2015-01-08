@@ -6,5 +6,7 @@ layout 'layouts/main.groovy',
 		info: info,
 		warning: warning,
 		pageBody: contents {
-			a(href: '/posts/view', 'View posts')
+			p {
+                yield 'Welcome to Udemy Spring course application!'
+            }
 		}

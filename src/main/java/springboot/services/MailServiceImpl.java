@@ -56,6 +56,10 @@ public class MailServiceImpl implements MailService {
         message.setTo(to);
         message.setSubject(subject);
         message.setText(body);
-        mailSender.send(message);
+        try {
+            mailSender.send(message);
+        } catch (Exception e) {
+            System.out.println(String.format("Sending mail failed with the following error: " + e.getMessage()));
+        }
     }
 }
