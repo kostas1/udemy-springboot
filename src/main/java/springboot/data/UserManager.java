@@ -20,7 +20,7 @@ public class UserManager implements UserDetailsManager {
 	public UserDetails loadUserByUsername(String username)
 			throws UsernameNotFoundException {
 		User user = userRepository.findByUsername(username);
-		if (user == null) {
+		if (user == null || User.UserState.EmailNotConfirmed == user.getState()) {
 			throw new UsernameNotFoundException("Username not found");
 		}
 		
@@ -35,10 +35,7 @@ public class UserManager implements UserDetailsManager {
     @Override
     public void createUser(UserDetails userDetails) {
         User user = new User();
-        assignValues(user, userDetails);
-    }
 
-    private void assignValues(User user, UserDetails userDetails) {
         user.setUsername(userDetails.getUsername());
         user.setPlainPassword(userDetails.getPassword());
         for (GrantedAuthority a: userDetails.getAuthorities()) {
@@ -48,6 +45,8 @@ public class UserManager implements UserDetailsManager {
         user.setAccountExpired(!userDetails.isAccountNonExpired());
         user.setCredentialsExpired(!userDetails.isCredentialsNonExpired());
         user.setAccountLocked(!userDetails.isAccountNonLocked());
+
+        userRepository.save(user);
     }
     
 	@Override
@@ -63,7 +62,7 @@ public class UserManager implements UserDetailsManager {
     @Override
     public boolean userExists(String username) {
         User user = userRepository.findByUsername(username);
-        return user != null;
+        return user != null && User.UserState.EmailNotConfirmed != user.getState();
     }
 
 }

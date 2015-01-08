@@ -43,8 +43,9 @@ import springboot.data.entities.User;
 public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 
     private static final String[] NONAUTHORISED = new String[] {
-        "/",
-        "/css/**"
+        "/**",
+        "/css/**",
+        "/users/register"
     };
 
     @Override

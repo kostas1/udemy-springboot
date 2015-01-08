@@ -35,26 +35,14 @@
 		<groupId>org.springframework.boot</groupId>
 		<artifactId>spring-boot-starter-security</artifactId>
 	</dependency>
-	
+
     <dependency>
-        <groupId>org.springframework.social</groupId>
-        <artifactId>spring-social-core</artifactId>
-    </dependency>
-    <dependency>
-        <groupId>org.springframework.social</groupId>
-        <artifactId>spring-social-web</artifactId>
-    </dependency>
-    <dependency>
-        <groupId>org.springframework.social</groupId>
-        <artifactId>spring-social-config</artifactId>
+	    <groupId>org.springframework.boot</groupId>
+	    <artifactId>spring-boot-starter-social-facebook</artifactId>
     </dependency>
     <dependency>
         <groupId>org.springframework.social</groupId>
         <artifactId>spring-social-security</artifactId>
-    </dependency>
-    <dependency>
-        <groupId>org.springframework.social</groupId>
-        <artifactId>spring-social-facebook</artifactId>
     </dependency>
     <dependency>
         <groupId>javax.mail</groupId>
@@ -65,8 +53,8 @@
 		<groupId>org.springframework</groupId>
 		<artifactId>spring-context-support</artifactId>
 	</dependency>
-    
-	
+
+
   </dependencies>
   
   <build>

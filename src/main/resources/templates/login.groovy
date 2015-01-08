@@ -1,12 +1,19 @@
-layout 'layouts/main.tpl',
-pageTitle: 'Login',
-pageBody: contents {
-	p {
-		'Login please'
+package templates
+
+layout 'layouts/main.groovy',
+	pageTitle: 'Login',
+	info: info,
+	warning: warning,
+	pageBody: contents {
+		div(class: 'col-md-4') {
+			form(action: '/login', method: 'post') {
+				div(class: 'form-group') {
+					input(class: 'form-control', type: 'text', name: 'username', placeholder: 'Username', value: username)
+				}
+				div(class: 'form-group') {
+					input(class: 'form-control', type: 'password', name: 'password', placeholder: 'Password', value: password)
+				}
+				input(class: 'btn btn-primary', type: 'submit', value: 'Login')
+			}
+		}
 	}
-	form(method: 'post', action: 'login') {
-		input(type: 'text', name: 'username', placeholder: 'Username')
-		input(type: 'text', name: 'password', placeholder: 'Password')
-		input(type: 'submit', value: 'Login')
-	}
-}

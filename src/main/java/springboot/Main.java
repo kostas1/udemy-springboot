@@ -6,6 +6,7 @@ import org.springframework.context.ApplicationContext;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
 
+import org.springframework.context.annotation.ImportResource;
 import springboot.data.entities.Post;
 import springboot.data.entities.User;
 import springboot.data.repositories.PostRepository;
@@ -14,6 +15,7 @@ import springboot.data.repositories.UserRepository;
 @Configuration
 @EnableAutoConfiguration
 @ComponentScan
+@ImportResource("mailconfig.xml")
 public class Main {
 
 	public static void main(String[] args) {

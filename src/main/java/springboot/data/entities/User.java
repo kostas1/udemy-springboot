@@ -5,16 +5,7 @@ import java.util.Collection;
 import java.util.HashSet;
 import java.util.Set;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.FetchType;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
-import javax.persistence.JoinColumn;
-import javax.persistence.OneToMany;
-import javax.persistence.Table;
-import javax.persistence.UniqueConstraint;
+import javax.persistence.*;
 
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -54,6 +45,16 @@ public class User implements UserDetails {
     @OneToMany(fetch = FetchType.EAGER)
     @JoinColumn(name = "username", referencedColumnName = "username")
     private Set<Authority> authorities = new HashSet<Authority>();
+
+	@Column
+	private String emailConfirmationToken;
+
+	@Column
+	private String passwordResetToken;
+
+	@Column
+	@Enumerated(EnumType.STRING)
+	private UserState state;
 
 	@Override
 	public Collection<? extends GrantedAuthority> getAuthorities() {
@@ -124,4 +125,36 @@ public class User implements UserDetails {
         this.authorities.add(a);
     }
 
+	public void generatePasswordResetToken() {
+		this.passwordResetToken = KeyGenerators.string().generateKey();
+	}
+
+	public String getPasswordResetToken() {
+		return passwordResetToken;
+	}
+
+	public void generateEmailConfirmationToken() {
+		this.emailConfirmationToken = KeyGenerators.string().generateKey();
+	}
+
+	public String getEmailConfirmationToken() {
+		return emailConfirmationToken;
+	}
+
+	public void setState(UserState state) {
+		this.state = state;
+	}
+
+	public UserState getState() {
+		return state;
+	}
+
+	public void clearPasswordResetToken() {
+		passwordResetToken = null;
+	}
+
+	public enum UserState {
+		EmailNotConfirmed,
+		EmailConfirmed
+	}
 }
