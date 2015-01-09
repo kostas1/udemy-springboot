@@ -1,6 +1,5 @@
 package springboot.data.entities;
 
-import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashSet;
 import java.util.Set;
@@ -48,9 +47,6 @@ public class User implements UserDetails {
 
 	@Column
 	private String emailConfirmationToken;
-
-	@Column
-	private String passwordResetToken;
 
 	@Column
 	@Enumerated(EnumType.STRING)
@@ -125,14 +121,6 @@ public class User implements UserDetails {
         this.authorities.add(a);
     }
 
-	public void generatePasswordResetToken() {
-		this.passwordResetToken = KeyGenerators.string().generateKey();
-	}
-
-	public String getPasswordResetToken() {
-		return passwordResetToken;
-	}
-
 	public void generateEmailConfirmationToken() {
 		this.emailConfirmationToken = KeyGenerators.string().generateKey();
 	}
@@ -147,10 +135,6 @@ public class User implements UserDetails {
 
 	public UserState getState() {
 		return state;
-	}
-
-	public void clearPasswordResetToken() {
-		passwordResetToken = null;
 	}
 
 	public enum UserState {
