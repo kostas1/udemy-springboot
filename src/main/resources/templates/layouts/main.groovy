@@ -1,5 +1,7 @@
 package templates.layouts
 
+import springboot.helpers.TemplateHelper
+
 yieldUnescaped '<!DOCTYPE html>'
 html(lang: 'en') {
 	head {
@@ -45,9 +47,12 @@ html(lang: 'en') {
 					li(class: 'sidebar-brand') {
 						a(href: '/', 'Udemy Spring')
 					}
-					if (authentication != null && authentication.getName() != 'anonymousUser') {
+					if (extra.authentication != null && extra.authentication.getName() != 'anonymousUser') {
 						li {
-							a(href: '/logout', "Logout, ${authentication.getName()}")
+							form(id: 'logoutForm', action: '/logout', method: 'post') {
+								input(type: 'hidden', name: extra._csrf.parameterName, value: extra._csrf.token)
+								a(href: '#', onclick: 'document.getElementById("logoutForm").submit();', "Logout, ${extra.authentication.getName()}")
+							}
 						}
 					} else {
 						li(class: 'active') {
@@ -58,13 +63,17 @@ html(lang: 'en') {
 						}
 						li {
 							form(id: 'authFacebook', action: '/auth/facebook', method: 'post') {
+
+								input(type: 'hidden', name: extra._csrf.parameterName, value: extra._csrf.token)
 								input(type: 'hidden', name: 'scope', value: 'email')
 								a(href: '#', onclick: 'document.getElementById("authFacebook").submit();', 'Connect with Facebook')
-							}
+							}n
 						}
 					}
 					li {
-						a(href: '/posts/view', 'View posts')
+						if (TemplateHelper.hasAuthority("VIEW_POSTS")) {
+							a(href: '/posts/view', 'View posts')
+						}
 					}
 				}
 			}
@@ -72,13 +81,13 @@ html(lang: 'en') {
 				div(class: 'container-fluid') {
 					div(class: 'row') {
 						div(class: 'col-lg-12') {
-							if (info != null) {
+							if (extra.info != null) {
 								div(class: 'alert alert-info', role: 'alert') {
-									yield info
+									yield extra.info
 								}
-							} else if (warning != null) {
+							} else if (extra.warning != null) {
 								div(class: 'alert alert-warning', role: 'alert') {
-									yield warning
+									yield extra.warning
 								}
 							}
 						}

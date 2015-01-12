@@ -3,8 +3,7 @@ package templates.posts
 layout 'layouts/main.groovy',
 	pageTitle: 'Create post',
 	pageStylesheet: 'posts/create',
-	info: info,
-	warning: warning,
+	extra: model,
 	pageBody: contents {
 		div(class: 'col-md-4') {
 			form(action: '/posts/create', method: 'post') {

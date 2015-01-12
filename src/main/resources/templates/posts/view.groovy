@@ -1,16 +1,18 @@
 package templates.posts
 
+import springboot.helpers.TemplateHelper
+
 layout 'layouts/main.groovy',
 	pageTitle: 'title',
 	pageStylesheet: 'posts/main',
-	authentication: authentication,
-	info: info,
-	warning: warning,
+	extra: model,
 	pageBody: contents {
 		p {
 			'List of posts'
 		}
-		a(class: 'btn btn-primary', href: 'create', 'Create new')
+		if (TemplateHelper.hasAuthority("EDIT_POSTS")) {
+			a(class: 'btn btn-primary', href: 'create', 'Create new')
+		}
 
 		table(class: 'table table-striped') {
 			tr {
@@ -39,8 +41,10 @@ layout 'layouts/main.groovy',
 						yield post.content
 					}
 					td {
-						a(class: 'btn btn-primary', href: "/posts/edit?id=$post.id", 'Edit')
-						a(class: 'btn btn-primary', href: "/posts/delete?id=$post.id", 'Delete')
+						if (TemplateHelper.hasAuthority("EDIT_POSTS")) {
+							a(class: 'btn btn-primary', href: "/posts/edit?id=$post.id", 'Edit')
+							a(class: 'btn btn-primary', href: "/posts/delete?id=$post.id", 'Delete')
+						}
 					}
 				}
 			}

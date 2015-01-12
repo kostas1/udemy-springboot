@@ -2,7 +2,9 @@ package springboot;
 
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.web.csrf.CsrfToken;
 import org.springframework.ui.ModelMap;
+import org.springframework.web.context.request.RequestAttributes;
 import org.springframework.web.context.request.WebRequest;
 import org.springframework.web.context.request.WebRequestInterceptor;
 import org.springframework.web.servlet.config.annotation.EnableWebMvc;
@@ -33,7 +35,12 @@ public class MvcConfig extends WebMvcConfigurerAdapter {
 			public void postHandle(WebRequest request, ModelMap modelMap)
 					throws Exception {
 				if (modelMap != null) {
-	                    modelMap.put("authentication", SecurityContextHolder.getContext().getAuthentication());
+					modelMap.put("authentication", SecurityContextHolder.getContext().getAuthentication());
+
+
+					CsrfToken token = (CsrfToken) request.getAttribute("_csrf", RequestAttributes.SCOPE_REQUEST);
+					if (token != null)
+						modelMap.put("_csrf", token);
 	                }
 			}
 
@@ -43,4 +50,5 @@ public class MvcConfig extends WebMvcConfigurerAdapter {
 			}
         });
     }
+
 }

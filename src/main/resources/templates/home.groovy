@@ -2,9 +2,7 @@ package templates
 
 layout 'layouts/main.groovy',
 	pageTitle: 'Home',
-	authentication: authentication,
-	info: info,
-	warning: warning,
+	extra: model,
 	pageBody: contents {
 		p {
 			yield 'Welcome to Udemy Spring course application!'

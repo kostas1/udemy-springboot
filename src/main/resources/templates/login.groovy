@@ -2,11 +2,12 @@ package templates
 
 layout 'layouts/main.groovy',
 	pageTitle: 'Login',
-	info: info,
-	warning: warning,
+	extra: model,
 	pageBody: contents {
 		div(class: 'col-md-4') {
 			form(action: '/login', method: 'post') {
+				input(type: 'hidden', name: _csrf.parameterName, value: _csrf.token)
+
 				div(class: 'form-group') {
 					input(class: 'form-control', type: 'text', name: 'username', placeholder: 'Email', value: username)
 				}

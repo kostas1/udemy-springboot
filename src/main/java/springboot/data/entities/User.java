@@ -40,10 +40,10 @@ public class User implements UserDetails {
 	
     @Column(name = "enabled", nullable = false)
     private boolean enabled = true;
-	
-    @OneToMany(fetch = FetchType.EAGER)
-    @JoinColumn(name = "username", referencedColumnName = "username")
-    private Set<Authority> authorities = new HashSet<Authority>();
+
+	@ManyToMany(fetch = FetchType.EAGER)
+	@JoinColumn
+	private Set<Role> roles = new HashSet<Role>();
 
 	@Column
 	private String emailConfirmationToken;
@@ -54,6 +54,10 @@ public class User implements UserDetails {
 
 	@Override
 	public Collection<? extends GrantedAuthority> getAuthorities() {
+		Set<GrantedAuthority> authorities = new HashSet<GrantedAuthority>();
+		for (Role role: roles) {
+			authorities.addAll(role.getAuthorities());
+		}
 		return authorities;
 	}
 
@@ -114,12 +118,6 @@ public class User implements UserDetails {
 	public void setEnabled(boolean enabled) {
 		this.enabled = enabled;
 	}
-	
-    public void addAuthority(String authority) {
-        Authority a = new Authority();
-        a.setAuthority(authority);
-        this.authorities.add(a);
-    }
 
 	public void generateEmailConfirmationToken() {
 		this.emailConfirmationToken = KeyGenerators.string().generateKey();
@@ -135,6 +133,10 @@ public class User implements UserDetails {
 
 	public UserState getState() {
 		return state;
+	}
+
+	public void addRole(Role role) {
+		roles.add(role);
 	}
 
 	public enum UserState {

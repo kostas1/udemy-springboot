@@ -8,6 +8,7 @@ import org.springframework.security.provisioning.UserDetailsManager;
 import org.springframework.stereotype.Component;
 
 import springboot.data.entities.User;
+import springboot.data.repositories.RoleRepository;
 import springboot.data.repositories.UserRepository;
 
 @Component("userDetailsService")
@@ -15,6 +16,9 @@ public class UserManager implements UserDetailsManager {
 	
 	@Autowired
 	UserRepository userRepository;
+
+	@Autowired
+	RoleRepository roleRepository;
 
 	@Override
 	public UserDetails loadUserByUsername(String username)
@@ -39,13 +43,14 @@ public class UserManager implements UserDetailsManager {
         user.setUsername(userDetails.getUsername());
         user.setPlainPassword(userDetails.getPassword());
         for (GrantedAuthority a: userDetails.getAuthorities()) {
-            user.addAuthority(a.getAuthority());
+			if (a.getAuthority().startsWith("ROLE_"))
+            user.addRole(roleRepository.findByName(a.getAuthority()));
         }
         user.setEnabled(userDetails.isEnabled());
         user.setAccountExpired(!userDetails.isAccountNonExpired());
         user.setCredentialsExpired(!userDetails.isCredentialsNonExpired());
         user.setAccountLocked(!userDetails.isAccountNonLocked());
-
+		user.addRole(roleRepository.findByName("ROLE_USER"));
         userRepository.save(user);
     }
     

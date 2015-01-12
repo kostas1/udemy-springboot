@@ -7,23 +7,44 @@ import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
 
 import org.springframework.context.annotation.ImportResource;
+import org.springframework.security.config.annotation.method.configuration.EnableGlobalMethodSecurity;
+import springboot.data.entities.Authority;
 import springboot.data.entities.Post;
+import springboot.data.entities.Role;
 import springboot.data.entities.User;
+import springboot.data.repositories.AuthorityRepository;
 import springboot.data.repositories.PostRepository;
+import springboot.data.repositories.RoleRepository;
 import springboot.data.repositories.UserRepository;
 
 @Configuration
 @EnableAutoConfiguration
 @ComponentScan
+@EnableGlobalMethodSecurity(prePostEnabled = true)
 @ImportResource("mailconfig.xml")
 public class Main {
 
 	public static void main(String[] args) {
 		ApplicationContext context = SpringApplication.run(Main.class, args);
-		
+
+		RoleRepository roleRepository = context.getBean(RoleRepository.class);
+		AuthorityRepository authorityRepository = context.getBean(AuthorityRepository.class);
+
+		Role userRole = new Role("ROLE_USER");
+		Authority viewPosts = new Authority("VIEW_POSTS");
+		authorityRepository.save(viewPosts);
+		userRole.addAuthority(viewPosts);
+		roleRepository.save(userRole);
+		Role adminRole = new Role("ROLE_ADMIN");
+		Authority editPosts = new Authority("EDIT_POSTS");
+		authorityRepository.save(editPosts);
+		adminRole.addAuthority(editPosts);
+		roleRepository.save(adminRole);
         User user = new User();
         user.setUsername("kostas");
         user.setPlainPassword("1234");
+		user.addRole(adminRole);
+		user.addRole(userRole);
 		UserRepository userRepository = context.getBean(UserRepository.class);
 		userRepository.save(user);
         

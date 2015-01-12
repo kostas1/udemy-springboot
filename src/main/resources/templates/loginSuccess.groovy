@@ -3,8 +3,7 @@ package templates
 layout 'layouts/main.groovy',
 	pageTitle: 'Login',
 	pageStylesheet: 'login',
-	info: info,
-	warning: warning,
+	extra: model,
 	pageBody: contents {
 		p {
 			yield 'Login successful.'
