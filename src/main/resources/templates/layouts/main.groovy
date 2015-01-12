@@ -67,7 +67,7 @@ html(lang: 'en') {
 								input(type: 'hidden', name: extra._csrf.parameterName, value: extra._csrf.token)
 								input(type: 'hidden', name: 'scope', value: 'email')
 								a(href: '#', onclick: 'document.getElementById("authFacebook").submit();', 'Connect with Facebook')
-							}n
+							}
 						}
 					}
 					li {
