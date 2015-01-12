@@ -90,6 +90,27 @@ html(lang: 'en') {
 									yield extra.warning
 								}
 							}
+
+							ul {
+								li {
+									yield "prop1 = "
+									yield extra.messages.get('prop1')
+								}
+								li {
+									yield "prop2 = "
+									yield extra.messages.get('prop2', 'pam', 'param')
+								}
+								li {
+									yield "prop0 = "
+									yield extra.messages.get('prop0')
+								}
+								li {
+									a(href: '?lang=en', 'English')
+								}
+								li {
+									a(href: '?lang=es', 'Español')
+								}
+							}
 						}
 					}
 					div(class: 'row') {
